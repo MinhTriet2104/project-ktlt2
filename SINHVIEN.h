@@ -10,63 +10,66 @@ public:
 	{
 		this->sKhoaHoc = "";
 	}
-	SINHVIEN(string sKhoaHoc, string sHoTen, string sKhoa, string sMaBanDoc, time_t tNgayThamGia) :
-		BANDOC(sHoTen, sKhoa, sMaBanDoc, tNgayThamGia)
+	SINHVIEN(string sMaBanDoc, string sHoTen, string sKhoa, int iNgay, int iThang, int iNam, string sKhoaHoc) :
+		BANDOC(sMaBanDoc, sHoTen, sKhoa, iNgay, iThang, iNam)
 	{
 		this->sKhoaHoc = sKhoaHoc;
 	}
+
 	string getKhoahoc();
 	void setKhoahoc(string sKhoaHoc);
-	void setSINHVIEN(string sKhoaHoc, string sHoTen, string sKhoa, string sMaBanDoc, time_t tNgayThamGia);
-	friend istream& operator >> (istream&is, SINHVIEN xSV)
+
+	friend istream& operator >> (istream&is, SINHVIEN &xSV)
 	{
-		cout << " nhap Khoa hoc: ";
-		rewind(stdin);
-		getline(cin,xSV.sKhoaHoc);
-		cout << "Nhap ho ten: ";
-		rewind(stdin);
-		getline(cin, xSV.sHoTen);
-		cout << "Nhap khoa: ";
-		rewind(stdin);
-		getline(cin, xSV.sKhoa);
 		cout << "Nhap ma ban doc: ";
 		rewind(stdin);
-		getline(cin, xSV.sMaBanDoc);
+		getline(is, xSV.sMaBanDoc);
+		cout << "Nhap ho ten: ";
+		rewind(stdin);
+		getline(is, xSV.sHoTen);
+		cout << "Nhap khoa: ";
+		rewind(stdin);
+		getline(is, xSV.sKhoa);
 		cout << "Nhap ngay tham gia: ";
-		cin >> xSV.tNgayThamGia;
+		cin >> xSV.xNgayThamGia;
+		cout << " nhap Khoa hoc: ";
+		rewind(stdin);
+		getline(is,xSV.sKhoaHoc);
 
 		return is;
 	}
-	friend ostream& operator << (ostream&os, SINHVIEN xSV)
+	friend ostream& operator << (ostream&os, SINHVIEN &xSV)
 	{
-		os << "Khoa hoc : " << xSV.sKhoaHoc << endl;
+		os << "Ma ban doc : " << xSV.sMaBanDoc << endl;
 		os << "Ho va ten : " << xSV.sHoTen << endl;
 		os << "Khoa : " << xSV.sKhoa << endl;
-		os << "Ma ban doc : " << xSV.sMaBanDoc << endl;
-		os << "Ngay tham gia : " << xSV.tNgayThamGia << endl;
+		os << "Ngay tham gia : " << xSV.xNgayThamGia;
+		os << "Khoa hoc : " << xSV.sKhoaHoc << endl;
 		return os;
 	}
 	//doc va ghi file
 	friend ifstream& operator >> (ifstream &ifs, SINHVIEN &xSV)
 	{
-		getline(ifs, xSV.sKhoaHoc, '#');
+		getline(ifs, xSV.sMaBanDoc, '#');
 
 		getline(ifs, xSV.sHoTen, '#');
 
 		getline(ifs, xSV.sKhoa, '#');
 
-		getline(ifs, xSV.sMaBanDoc, '#');
-		ifs >> xSV.tNgayThamGia;
+		ifs >> xSV.xNgayThamGia;
 		ifs.ignore(1);
+
+		getline(ifs, xSV.sKhoaHoc);
+
 		return ifs;
 	}
 	friend ofstream& operator << (ofstream &ofs, SINHVIEN &xSV)
 	{
-		ofs << xSV.sKhoaHoc << '#';
+		ofs << xSV.sMaBanDoc << '#';
 		ofs << xSV.sHoTen << '#';
 		ofs << xSV.sKhoa << '#';
-		ofs << xSV.sMaBanDoc << '#';
-		ofs << xSV.tNgayThamGia << '#';
+		ofs << xSV.xNgayThamGia;
+		ofs << xSV.sKhoaHoc << '#';
 		return ofs;
 	}
 	~SINHVIEN() {};

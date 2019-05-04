@@ -8,6 +8,7 @@
 using namespace std;
 
 class SACH;
+class BANDOC;
 class Date
 {
 private:
@@ -16,6 +17,7 @@ private:
 	int iNam;
 public:
 	friend SACH;
+	friend BANDOC;
 	Date() {
 		this->iNgay = 1;
 		this->iThang = 1;
