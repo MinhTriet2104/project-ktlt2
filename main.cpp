@@ -11,7 +11,9 @@
 void SetColor(int ForgC);
 void docDsSach();
 void xuatDsSach();
-void ghiDsSach(vector<SACH> dsSach, ofstream &ghiFile);
+void ghiDsSach();
+void ghiDsSachSV();
+void ghiDsSachGV();
 void docDsAdmin();
 void xuatDsAdmin();
 void docDsSV();
@@ -414,7 +416,32 @@ void docDsAdmin() {
 	docFile.close();
 }
 
-void ghiDsSach(vector<SACH> dsSach, ofstream &ghiFile) {
+void ghiDsSachSV() {
+	ofstream ghiFile;
+	ghiFile.open("User_Data_SV.dat");
+	for (int i = 0; i < dsSV.size(); i++) {
+		ghiFile << dsSV[i];
+		if (i != dsSV.size() - 1) {
+			ghiFile << endl;
+		}
+	}
+	ghiFile.close();
+}
+
+void ghiDsSachGV() {
+	ofstream ghiFile;
+	ghiFile.open("User_Data_GV.dat");
+	for (int i = 0; i < dsGV.size(); i++) {
+		ghiFile << dsGV[i];
+		if (i != dsGV.size() - 1) {
+			ghiFile << endl;
+		}
+	}
+	ghiFile.close();
+}
+
+void ghiDsSach() {
+	ofstream ghiFile;
 	ghiFile.open("Book_Data.dat");
 	for (int i = 0; i < dsSach.size(); i++) {
 		ghiFile << dsSach[i];
