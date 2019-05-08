@@ -26,6 +26,7 @@ void QLPhieuMuon();
 void QLSach();
 void QLBanDoc();
 void menuQL();
+void menuTK();
 
 //Bien toan cuc
 bool isAdmin = false;
@@ -90,9 +91,93 @@ void menuQL() {
 		break;
 	case 4:
 		break;
-	case 5:
+	default:
+		break;
+	}
+}
+
+void menuTK() {
+	int iOption;
+	SetColor(10);
+	cout << "\t\t*************************************************" << endl;
+	cout << "\t\t*                                               *" << endl;
+	cout << "\t\t*                   ";
+	SetColor(14);
+	cout << "TIM KIEM";
+	SetColor(10);
+	cout <<"                    *" << endl;
+	cout << "\t\t*                                               *" << endl;
+	cout << "\t\t*************************************************" << endl;
+	cout << endl;
+	SetColor(12);
+	cout << "\t\t=================================================" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Tim kiem Sach";SetColor(12); cout << "                =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Tim kiem ban doc";SetColor(12); cout << "             =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Thoat";SetColor(12); cout << "                        =" << endl;
+	SetColor(12);
+	cout << "\t\t=================================================" << endl;
+	SetColor(11);
+	cout << "\n\t\t-Choose service: ";
+	SetColor(15);
+	cin >> iOption;
+	string sTenSach;
+	string sMaBD;
+	bool exist = false;
+	switch (iOption) {
+	case 1:
+		SetColor(11);
+		cout << "\n\t\t- Nhap tua de sach: ";
+		rewind(stdin);
+		SetColor(15);
+		getline(cin, sTenSach);
+		for (int i = 0; i < dsSach.size(); i++) {
+			if (dsSach[i].getTuaDe() == sTenSach) {
+				cout << dsSach[i];
+				exist = true;
+				break;
+			}
+		}
+		if (!exist) {
+			SetColor(12);
+			cout << "\n\t\tTua de sach khong ton tai!\n\n";
+		}
+		system("pause");
+		system("cls");
+		menuTK();
+		break;
+	case 2:
+		SetColor(11);
+		cout << "\n\t\t- Nhap Ma ban doc: ";
+		rewind(stdin);
+		SetColor(15);
+		getline(cin, sMaBD);
+		for (int i = 0; i < dsSV.size(); i++) {
+			if (dsSV[i].getMabandoc() == sMaBD) {
+				system("cls");
+				cout << dsSV[i];
+				exist = true;
+				break;
+			}
+		}
+		for (int i = 0; i < dsGV.size(); i++) {
+			if (dsGV[i].getMabandoc() == sMaBD) {
+				system("cls");
+				cout << dsGV[i];
+				exist = true;
+				break;
+			}
+		}
+		if (!exist) {
+			SetColor(12);
+			cout << "\n\t\tMa ban doc khong ton tai!\n\n";
+		}
+		system("pause");
+		system("cls");
+		menuTK();
 		break;
 	default:
+		system("cls");
+		menu();
 		break;
 	}
 }
@@ -124,6 +209,7 @@ void menu() {
 	cin >> iOption;
 	switch (iOption) {
 	case 1:
+		system("cls");
 		xuatDsSach();
 		cout << endl;
 		system("pause");
@@ -131,6 +217,8 @@ void menu() {
 		menu();
 		break;
 	case 2:
+		system("cls");
+		menuTK();
 		break;
 	case 3:
 		if (isAdmin == 1) {
