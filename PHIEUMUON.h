@@ -17,15 +17,15 @@ private:
 	int iTinhTrangPhieuMuon;
 public:
 	PHIEUMUON() {
-		iSoPhieuMuon++;
 		this->iSoPhieu = iSoPhieuMuon;
+		iSoPhieuMuon++;
 		this->iTinhTrangPhieuMuon = 1;
-
+		this->xNgayTra = tinhNgayTra();
 	}
 
 	PHIEUMUON(string sMaBD, string sMaSach) : xBD(sMaBD), xSach(sMaSach)  {
-		iSoPhieuMuon++;
 		this->iSoPhieu = iSoPhieuMuon;
+		iSoPhieuMuon++;
 		this->sMaBD = sMaBD;
 		this->sMaSach = sMaSach;
 		//this->xNgayMuon.iNgay = 25;
@@ -47,11 +47,11 @@ public:
 	friend istream& operator >> (istream&is, PHIEUMUON &xPM) {	
 		cout << "Ma Ban doc: ";
 		rewind(stdin);
-		getline(cin, xPM.sMaBD);
+		getline(is, xPM.sMaBD);
 
 		cout << "Ma Sach: ";
 		rewind(stdin);
-		getline(cin, xPM.sMaSach);
+		getline(is, xPM.sMaSach);
 
 		return is;
 	}
@@ -83,9 +83,11 @@ public:
 	}
 
 	friend ofstream& operator << (ofstream &ofs, PHIEUMUON &xPM) {
+		ofs << xPM.iSoPhieuMuon << '#';
+		ofs << xPM.sMaBD << '#';
+		ofs << xPM.sMaSach << '#';
 		ofs << xPM.xNgayMuon << '#';
 		ofs << xPM.xNgayTra << '#';
-		ofs << xPM.iSoPhieuMuon << '#';
 		ofs << xPM.iTinhTrangPhieuMuon;
 		return ofs;
 	}

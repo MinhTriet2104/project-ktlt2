@@ -29,7 +29,7 @@ public:
 		cout << "Ma ban doc : ";
 		rewind(stdin);
 		getline(is, xGV.sMaBanDoc);
-		cout << "nhap Ho ten: ";
+		cout << "Nhap Ho ten: ";
 		rewind(stdin);
 		getline(is, xGV.sHoTen);
 		cout << "Khoa: ";
@@ -41,8 +41,6 @@ public:
 		cout << "SDT: ";
 		rewind(stdin);
 		getline(is, xGV.sSDT);
-		cout << "Nhap ngay tham gia: \n";
-		is >> xGV.xNgayThamGia;
 
 		return is;
 	}

@@ -2,6 +2,7 @@
 #define Sach_h
 
 #pragma once
+#pragma warning(disable : 4996)
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -9,6 +10,7 @@ using namespace std;
 
 class SACH;
 class BANDOC;
+class PHIEUMUON;
 class Date
 {
 private:
@@ -18,10 +20,13 @@ private:
 public:
 	friend SACH;
 	friend BANDOC;
+	friend PHIEUMUON;
 	Date() {
-		this->iNgay = 1;
-		this->iThang = 1;
-		this->iNam = 0;
+		time_t Timecurrent = time(0);
+		tm * timeC = localtime(&Timecurrent);
+		this->iNgay = timeC->tm_mday;
+		this->iThang = 1 + timeC->tm_mon;
+		this->iNam = 1900 + timeC->tm_year;
 	}
 
 	Date(int iNgay, int iThang, int iNam) {

@@ -30,9 +30,9 @@ public:
 		cout << "Nhap khoa: ";
 		rewind(stdin);
 		getline(is, xSV.sKhoa);
-		cout << "Nhap ngay tham gia: ";
+		cout << "Nhap ngay tham gia: \n";
 		cin >> xSV.xNgayThamGia;
-		cout << " nhap Khoa hoc: ";
+		cout << "Nhap Khoa hoc: ";
 		rewind(stdin);
 		getline(is,xSV.sKhoaHoc);
 
@@ -68,8 +68,8 @@ public:
 		ofs << xSV.sMaBanDoc << '#';
 		ofs << xSV.sHoTen << '#';
 		ofs << xSV.sKhoa << '#';
-		ofs << xSV.xNgayThamGia;
-		ofs << xSV.sKhoaHoc << '#';
+		ofs << xSV.xNgayThamGia << '#';
+		ofs << xSV.sKhoaHoc;
 		return ofs;
 	}
 	~SINHVIEN() {};

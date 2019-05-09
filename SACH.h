@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+class PHIEUMUON;
 class SACH
 {
 private:
@@ -17,6 +18,7 @@ private:
 	int iTinhTrangSach;
 
 public:
+	friend PHIEUMUON;
 	SACH()
 	{
 		sMaSach = "";
@@ -29,7 +31,6 @@ public:
 		iTinhTrangSach = 0;
 
 	}
-
 	SACH(string sMaSach) {
 		this->sMaSach = sMaSach;
 	}
@@ -37,32 +38,15 @@ public:
 	SACH(string sMaSach, string sTuaDe, string sTacGia, string sNhaXuatBan,
 	int iNgay, int iThang, int iNam, int iTriGia, int iNamPhatHanh, int iSoTrang,
 	int iTinhTrangSach) : xNgayNhapKho(iNgay, iThang, iNam) {
-		sMaSach = sMaSach;
-		sTuaDe = sTuaDe;
-		sTacGia = sTacGia;
-		sNhaXuatBan = sNhaXuatBan;
-		iTriGia = iTriGia;
-		iNamPhatHanh = iNamPhatHanh;
-		iSoTrang = iSoTrang;
-		iTinhTrangSach = 0;
+		this->sMaSach = sMaSach;
+		this->sTuaDe = sTuaDe;
+		this->sTacGia = sTacGia;
+		this->sNhaXuatBan = sNhaXuatBan;
+		this->iTriGia = iTriGia;
+		this->iNamPhatHanh = iNamPhatHanh;
+		this->iSoTrang = iSoTrang;
+		this->iTinhTrangSach = 0;
 	}
-
-	//SACH(string sMaSach, string sTuaDe, string sTacGia, string sNhaXuatBan,
-	//	string sNgayNhapKho, int iTriGia, int iNamPhatHanh, int iSoTrang,
-	//	int iTinhTrangSach, int iSoPhieuMuon, string sMaBanDoc,
-	//	string sNgayMuon, string sNgayTra, int iTinhTrangPhieuMuon) :
-	//	xPM(iSoPhieuMuon, sMaBanDoc, sNgayMuon, sNgayTra, iTinhTrangPhieuMuon)
-	//{
-	//	this->sMaSach = sMaSach;
-	//	this->sTuaDe = sTuaDe;
-	//	this->sTacGia = sTacGia;
-	//	this->sNhaXuatBan = sNhaXuatBan;
-	//	this->sNgayNhapKho = sNgayNhapKho;
-	//	this->iTriGia = iTriGia;
-	//	this->iNamPhatHanh = iNamPhatHanh;
-	//	this->iSoTrang = iSoTrang;
-	//	this->iTinhTrangSach = iTinhTrangSach;
-	//}
 
 	string getMasach();
 	string getTuaDe();
@@ -85,8 +69,7 @@ public:
 		string sNgayNhapKho, int iTriGia, int iNamPhatHanh, int iSoTrang, int iTinhTrangSach);
 
 	//Dinh nghia toan tu nhap/xuat:
-	friend istream& operator >> (istream &is, SACH &xS)
-	{
+	friend istream& operator >> (istream &is, SACH &xS) {
 		cout << "Nhap ma sach: ";
 		rewind(stdin);
 		getline(cin, xS.sMaSach);
@@ -103,9 +86,6 @@ public:
 		rewind(stdin);
 		getline(cin, xS.sNhaXuatBan);
 
-		cout << "Nhap ngay nhap kho\n";
-		cin >> xS.xNgayNhapKho;
-
 		cout << "Nhap tri gia : ";
 		cin >> xS.iTriGia;
 
@@ -118,8 +98,7 @@ public:
 		return is;
 	}
 
-	friend ostream& operator << (ostream &os, SACH &xS)
-	{
+	friend ostream& operator << (ostream &os, SACH &xS) {
 		os << "Ma sach : " << xS.sMaSach << endl;
 		os << "Tua de : " << xS.sTuaDe << endl;
 		os << "Tac gia : " << xS.sTacGia << endl;

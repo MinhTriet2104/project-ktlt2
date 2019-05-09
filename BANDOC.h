@@ -5,6 +5,7 @@
 #include <string>
 #include "Date.h"
 
+class PHIEUMUON;
 class BANDOC
 {
 protected:
@@ -13,11 +14,17 @@ protected:
 	string	sMaBanDoc;
 	Date xNgayThamGia;
 public:
+	friend PHIEUMUON;
 	BANDOC()
 	{
 		this->sHoTen = "";
 		this->sKhoa = "";
 		this->sMaBanDoc = "";
+	}
+	BANDOC(string sMaBanDoc) {
+		this->sMaBanDoc = sMaBanDoc;
+		this->sHoTen = "";
+		this->sKhoa = "";
 	}
 	BANDOC(string sMaBanDoc, string sHoTen, string sKhoa, int iNgay, int iThang, int iNam) : xNgayThamGia(iNgay, iThang, iNam)
 	{

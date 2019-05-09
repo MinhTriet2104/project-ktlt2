@@ -3,6 +3,7 @@
 #include"SINHVIEN.h"
 #include "GIAOVIEN.h"
 #include "SACH.h"
+#include "PHIEUMUON.h"
 #include <conio.h>
 #include <windows.h>
 #include <vector>
@@ -12,14 +13,18 @@ void SetColor(int ForgC);
 void docDsSach();
 void xuatDsSach();
 void ghiDsSach();
-void ghiDsSachSV();
-void ghiDsSachGV();
+void ghiDsSV();
+void ghiDsGV();
+void ghiDsPM();
+void ghiMoiPM();
 void docDsAdmin();
 void xuatDsAdmin();
 void docDsSV();
 void xuatDsSV();
 void docDsGV();
 void xuatDsGV();
+void docDsPM();
+void xuatDsPM();
 void loading(int iTime);
 void login();
 int checkUsername(string sUser, string sPass);
@@ -30,12 +35,16 @@ void QLBanDoc();
 void menuQL();
 void menuTK();
 
+//Khai bao bien tinh
+int PHIEUMUON::iSoPhieuMuon = 0;
+
 //Bien toan cuc
 bool isAdmin = false;
 vector<Administrator> dsAdmin;
 vector<SACH> dsSach;
 vector<SINHVIEN> dsSV;
 vector<GIAOVIEN> dsGV;
+vector<PHIEUMUON> dsPM;
 
 //chuong trinh chinh
 int main() 
@@ -48,9 +57,13 @@ int main()
 
 	docDsSV();
 	//xuatDsSV();
+	
 
 	docDsGV();
 	//xuatDsGV();
+
+	docDsPM();
+	//xuatDsPM();
 
 	login();
 
@@ -364,6 +377,17 @@ int checkUsername(string sUser, string sPass) {
 	}
 	return 0;
 }
+void docDsPM() {
+	ifstream docFile;
+	docFile.open("Phieu_Muon.dat");
+	while (docFile.eof() != 1) {
+		PHIEUMUON xPM;
+		docFile >> xPM;
+		dsPM.push_back(xPM);
+		docFile.ignore(1);
+	}
+	docFile.close();
+}
 void docDsSV() {
 	ifstream docFile;
 	docFile.open("User_Data_SV.dat");
@@ -371,7 +395,6 @@ void docDsSV() {
 		SINHVIEN xSV;
 		docFile >> xSV;
 		dsSV.push_back(xSV);
-		docFile.ignore(1);
 	}
 	docFile.close();
 }
@@ -388,9 +411,14 @@ void docDsGV() {
 		GIAOVIEN xGV;
 		docFile >> xGV;
 		dsGV.push_back(xGV);
-		docFile.ignore(1);
 	}
 	docFile.close();
+}
+void xuatDsPM() {
+	for (int i = 0; i < dsPM.size(); i++) {
+		cout << "\n- Phieu muon " << i + 1 << " -\n";
+		cout << dsPM[i];
+	}
 }
 void xuatDsGV() {
 	for (int i = 0; i < dsGV.size(); i++) {
@@ -415,8 +443,38 @@ void docDsAdmin() {
 	}
 	docFile.close();
 }
+void ghiMoiPM() {
+	ofstream ghiFile;
+	ghiFile.open("Phieu_Muon.dat", ios_base::app);
 
-void ghiDsSachSV() {
+	string sMaBD;
+	string sMaSach;
+	cout << "Ma Ban doc: ";
+	rewind(stdin);
+	getline(cin, sMaBD);
+
+	cout << "Ma Sach: ";
+	rewind(stdin);
+	getline(cin, sMaSach);
+
+	PHIEUMUON xPM(sMaBD, sMaSach);
+	ghiFile << endl;
+	ghiFile << xPM;
+
+	ghiFile.close();
+}
+void ghiDsPM() {
+	ofstream ghiFile;
+	ghiFile.open("Phieu_Muon.dat");
+	for (int i = 0; i < dsPM.size(); i++) {
+		ghiFile << dsPM[i];
+		if (i != dsPM.size() - 1) {
+			ghiFile << endl;
+		}
+	}
+	ghiFile.close();
+}
+void ghiDsSV() {
 	ofstream ghiFile;
 	ghiFile.open("User_Data_SV.dat");
 	for (int i = 0; i < dsSV.size(); i++) {
@@ -428,7 +486,7 @@ void ghiDsSachSV() {
 	ghiFile.close();
 }
 
-void ghiDsSachGV() {
+void ghiDsGV() {
 	ofstream ghiFile;
 	ghiFile.open("User_Data_GV.dat");
 	for (int i = 0; i < dsGV.size(); i++) {
