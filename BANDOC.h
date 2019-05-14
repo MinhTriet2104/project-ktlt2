@@ -3,6 +3,7 @@
 #define BANDOC_h
 
 #include <string>
+#include <windows.h>
 #include "Date.h"
 
 class PHIEUMUON;

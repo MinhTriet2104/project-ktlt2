@@ -1,6 +1,7 @@
 #pragma once
 #include "Date.h"
 #include <string>
+#include <windows.h>
 using namespace std;
 
 class PHIEUMUON;
@@ -70,44 +71,87 @@ public:
 
 	//Dinh nghia toan tu nhap/xuat:
 	friend istream& operator >> (istream &is, SACH &xS) {
-		cout << "Nhap ma sach: ";
+		SetColor(13);
+		cout << "\t\tNhap Tua de: ";
 		rewind(stdin);
-		getline(cin, xS.sMaSach);
-
-		cout << "Nhap Tua de: ";
-		rewind(stdin);
+		SetColor(15);
 		getline(cin, xS.sTuaDe);
 
-		cout << "Nhap Tac gia : ";
+		SetColor(13);
+		cout << "\t\tNhap Tac gia: ";
 		rewind(stdin);
+		SetColor(15);
 		getline(cin, xS.sTacGia);
 
-		cout << "Nhap nha xuat ban : ";
+		SetColor(13);
+		cout << "\t\tNhap nha xuat ban: ";
 		rewind(stdin);
+		SetColor(15);
 		getline(cin, xS.sNhaXuatBan);
 
-		cout << "Nhap tri gia : ";
+		SetColor(13);
+		cout << "\t\tNhap tri gia: ";
+		SetColor(15);
 		cin >> xS.iTriGia;
 
-		cout << "Nhap nam phat hanh  : ";
+		SetColor(13);
+		cout << "\t\tNhap nam phat hanh: ";
+		SetColor(15);
 		cin >> xS.iNamPhatHanh;
 
-		cout << "Nhap so trang : ";
+		SetColor(13);
+		cout << "\t\tNhap so trang: ";
+		SetColor(15);
 		cin >> xS.iSoTrang;
 
 		return is;
 	}
 
 	friend ostream& operator << (ostream &os, SACH &xS) {
-		os << "Ma sach : " << xS.sMaSach << endl;
-		os << "Tua de : " << xS.sTuaDe << endl;
-		os << "Tac gia : " << xS.sTacGia << endl;
-		os << "Nha xuat ban : " << xS.sNhaXuatBan << endl;
-		os << "Ngay nhap kho : " << xS.xNgayNhapKho;
-		os << "Tri gia : " << xS.iTriGia << endl;
-		os << "Nam phat hanh : " << xS.iNamPhatHanh << endl;
-		os << "So trang : " << xS.iSoTrang << endl;
-		os << "Tinh trang sach : " << xS.iTinhTrangSach << endl;
+		SetColor(13);
+		os << "\t\tMa sach : ";
+		SetColor(15);
+		os << xS.sMaSach << endl;
+
+		SetColor(13);
+		os << "\t\tTua de : ";
+		SetColor(15);
+		os << xS.sTuaDe << endl;
+
+		SetColor(13);
+		os << "\t\tTac gia : ";
+		SetColor(15);
+		os << xS.sTacGia << endl;
+
+		SetColor(13);
+		os << "\t\tNha xuat ban : ";
+		SetColor(15);
+		os << xS.sNhaXuatBan << endl;
+
+		SetColor(13);
+		os << "\t\tNgay nhap kho : ";
+		SetColor(15);
+		os << xS.xNgayNhapKho;
+
+		SetColor(13);
+		os << "\t\tTri gia : ";
+		SetColor(15);
+		os << xS.iTriGia << endl;
+
+		SetColor(13);
+		os << "\t\tNam phat hanh : ";
+		SetColor(15);
+		os << xS.iNamPhatHanh << endl;
+
+		SetColor(13);
+		os << "\t\tSo trang : ";
+		SetColor(15);
+		os << xS.iSoTrang << endl;
+
+		SetColor(13);
+		os << "\t\tTinh trang sach : ";
+		SetColor(15);
+		os << xS.iTinhTrangSach << endl;
 
 		return os;
 	}
@@ -153,7 +197,23 @@ public:
 		return ofs;
 	}
 
+	static void SetColor(int ForgC) 
+	{ 
+		WORD wColor; 
+
+		 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE); 
+		 CONSOLE_SCREEN_BUFFER_INFO csbi; 
+
+			 //We use csbi for the wAttributes word. 
+		if(GetConsoleScreenBufferInfo(hStdOut, &csbi)) 
+		{ 
+		   //Mask out all but the background attribute, and add in the forgournd  color 
+		  wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F); 
+		  SetConsoleTextAttribute(hStdOut, wColor); 
+		} 
+		return; 
+	} 
+
 	~SACH() {};
 
 };
-

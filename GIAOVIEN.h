@@ -24,38 +24,67 @@ public:
 	void setSDT(string sSDT);
 	void setGIAOVIEN(string sDiaChi, string sSDT);
 
-	friend istream& operator >> (istream&is, GIAOVIEN &xGV)
-	{
-		cout << "Ma ban doc : ";
+	friend istream& operator >> (istream&is, GIAOVIEN &xGV) {
+		SetColor(13);
+		cout << "\t\tNhap Ho ten: ";
 		rewind(stdin);
-		getline(is, xGV.sMaBanDoc);
-		cout << "Nhap Ho ten: ";
-		rewind(stdin);
+		SetColor(15);
 		getline(is, xGV.sHoTen);
-		cout << "Khoa: ";
+
+		SetColor(13);
+		cout << "\t\tKhoa: ";
 		rewind(stdin);
+		SetColor(15);
 		getline(is, xGV.sKhoa);
-		cout << "Dia Chi: ";
+
+		SetColor(13);
+		cout << "\t\tDia Chi: ";
 		rewind(stdin);
+		SetColor(15);
 		getline(is, xGV.sDiaChi);
-		cout << "SDT: ";
+
+		SetColor(13);
+		cout << "\t\tSDT: ";
 		rewind(stdin);
+		SetColor(15);
 		getline(is, xGV.sSDT);
 
 		return is;
 	}
-	friend ostream& operator << (ostream&os, GIAOVIEN &xGV)
-	{
-		os << "Ma ban doc : " << xGV.sMaBanDoc << endl;
-		os << "Ho va ten : " << xGV.sHoTen << endl;
-		os << "Khoa : " << xGV.sKhoa << endl;
-		os << "Ngay tham gia : " << xGV.xNgayThamGia;
-		os << "DiaChi : " << xGV.sDiaChi << endl;
-		os << "SDT : " << xGV.sSDT << endl;
+	friend ostream& operator << (ostream&os, GIAOVIEN &xGV) {
+		SetColor(13);
+		os << "\t\tMa ban doc: ";
+		SetColor(15);
+		os << xGV.sMaBanDoc << endl;
+
+		SetColor(13);
+		os << "\t\tHo va ten: ";
+		SetColor(15);
+		os << xGV.sHoTen << endl;
+
+		SetColor(13);
+		os << "\t\tKhoa: ";
+		SetColor(15);
+		os << xGV.sKhoa << endl;
+
+		SetColor(13);
+		os << "\t\tNgay tham gia: ";
+		SetColor(15);
+		os << xGV.xNgayThamGia;
+
+		SetColor(13);
+		os << "\t\tDiaChi: ";
+		SetColor(15);
+		os << xGV.sDiaChi << endl;
+
+		SetColor(13);
+		os << "\t\tSDT: ";
+		SetColor(15);
+		os << xGV.sSDT << endl;
+
 		return os;
 	}
-	friend ifstream& operator >> (ifstream &ifs, GIAOVIEN &xGV)
-	{
+	friend ifstream& operator >> (ifstream &ifs, GIAOVIEN &xGV) {
 		getline(ifs, xGV.sMaBanDoc, '#');
 		getline(ifs, xGV.sHoTen, '#');
 		getline(ifs, xGV.sKhoa, '#');
@@ -65,8 +94,7 @@ public:
 		getline(ifs, xGV.sSDT);
 		return ifs;
 	}
-	friend ofstream& operator << (ofstream &ofs, GIAOVIEN &xGV)
-	{
+	friend ofstream& operator << (ofstream &ofs, GIAOVIEN &xGV) {
 		ofs << xGV.sMaBanDoc << '#';
 		ofs << xGV.sHoTen << '#';
 		ofs << xGV.sKhoa << '#';
@@ -75,6 +103,24 @@ public:
 		ofs << xGV.sSDT;
 		return ofs;
 	}
+
+	static void SetColor(int ForgC) 
+	{ 
+		WORD wColor; 
+
+		 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE); 
+		 CONSOLE_SCREEN_BUFFER_INFO csbi; 
+
+			 //We use csbi for the wAttributes word. 
+		if(GetConsoleScreenBufferInfo(hStdOut, &csbi)) 
+		{ 
+		   //Mask out all but the background attribute, and add in the forgournd  color 
+		  wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F); 
+		  SetConsoleTextAttribute(hStdOut, wColor); 
+		} 
+		return; 
+	} 
+
 	~GIAOVIEN() {};
 };
 
