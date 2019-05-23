@@ -27,6 +27,7 @@ void docDsPM();
 void xuatDsPM();
 void loading(int iTime);
 void login();
+std::string inputPassword(size_t length_max);
 int checkUsername(string sUser, string sPass);
 void menu();
 void QLPhieuMuon();
@@ -38,6 +39,7 @@ void menuTK();
 bool kiemTraMaBD(string sMaBD);
 bool kiemTraMaSach(string sMaSach);
 int kiemTraTinhTrangSach(string sMaSach);
+int kiemTraSoPhieuMuon(int iSoPhieu);
 
 //Khai bao bien tinh
 int PHIEUMUON::iSoPhieuMuon = 0;
@@ -51,8 +53,7 @@ vector<GIAOVIEN> dsGV;
 vector<PHIEUMUON> dsPM;
 
 //chuong trinh chinh
-int main() 
-{
+int main() {
 	docDsAdmin();
 	//xuatDsAdmin();
 
@@ -69,21 +70,116 @@ int main()
 	docDsPM();
 	//xuatDsPM();
 
-	//login();
-	QLSach();
+	login();
 
 	system("pause");
 	return 0;
 }
-//dinh nghi chuong trinh con
-void QLSach() {
+//dinh nghia chuong trinh con
+void QLPhieuMuon() {
 	int iOption;
 	SetColor(10);
 	cout << "\t\t*************************************************" << endl;
 	cout << "\t\t*                                               *" << endl;
 	cout << "\t\t*                  ";
 	SetColor(14);
-	cout << "QL BAN DOC";
+	cout << "QL PHIEU MUON";
+	SetColor(10);
+	cout <<"                *" << endl;
+	cout << "\t\t*                                               *" << endl;
+	cout << "\t\t*************************************************" << endl;
+	cout << endl;
+	SetColor(12);
+	cout << "\t\t=================================================" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Xem danh sach Phieu muon";SetColor(12); cout << "     =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Tao Phieu muon moi";SetColor(12); cout << "           =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Tra Sach";SetColor(12); cout << "                     =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t4. Thoat";SetColor(12); cout << "                        =" << endl;
+	SetColor(12);
+	cout << "\t\t=================================================" << endl;
+	SetColor(11);
+	cout << "\n\t\t-Choose service: ";
+	SetColor(15);
+	cin >> iOption;
+	int iSoPhieu = 0;
+	switch (iOption)
+	{
+	case 1:
+		xuatDsPM();
+		system("pause");
+		system("cls");
+		QLPhieuMuon();
+		break;
+	case 2:
+		ghiMoiPM();
+		system("pause");
+		system("cls");
+		QLPhieuMuon();
+		break;
+	case 3:
+		do {
+			SetColor(13);
+			cout << "\n\t\tNhap so Phieu muon: ";
+			SetColor(15);
+			cin >> iSoPhieu;
+			if (iSoPhieu == -1) { 
+				system("cls");
+				QLPhieuMuon(); 
+			}
+			if (kiemTraSoPhieuMuon(iSoPhieu) == -2) {
+				SetColor(12);
+				cout << "\n\t\t\tSo phieu khong ton tai!\n\n";
+			}
+			if (kiemTraSoPhieuMuon(iSoPhieu) == -1) {
+				SetColor(12);
+				cout << "\n\t\t\tPhieu da duoc tra!\n\n";
+			}
+		} while (kiemTraSoPhieuMuon(iSoPhieu) == -2 || kiemTraSoPhieuMuon(iSoPhieu) == -1);
+		for (int i = 0; i < dsSach.size(); i++) {
+			if (dsSach[i].getTinhTrangSach() == iSoPhieu) {
+				dsSach[i].setTinhTrangSach(0);
+				break;
+			}
+		}
+		ghiDsSach();
+		for (int i = 0; i < dsPM.size(); i++) {
+			if (dsPM[i].getSoPhieuMuon() == iSoPhieu) {
+				dsPM[i].setTinhTrangPhieuMuon(0);
+				break;
+			}
+		}
+		ghiDsPM();
+		SetColor(10);
+		cout << "\n\t\t\tTra Sach thanh cong!\n\n";
+		system("pause");
+		system("cls");
+		QLPhieuMuon();
+		break;
+	default:
+		system("cls");
+		menuQL();
+		break;
+	}
+}
+
+int kiemTraSoPhieuMuon(int iSoPhieu) {
+	for (int i = 0; i < dsPM.size(); i++) {
+		if (dsPM[i].getSoPhieuMuon() == iSoPhieu) {
+			if (dsPM[i].getTinhTrangPhieuMuon() == 1) return i;
+			else return -1;
+		}
+	}
+	return -2;
+}
+
+void QLSach() {
+	int iOption;
+	SetColor(10);
+	cout << "\t\t*************************************************" << endl;
+	cout << "\t\t*                                               *" << endl;
+	cout << "\t\t*                     ";
+	SetColor(14);
+	cout << "QL SACH";
 	SetColor(10);
 	cout <<"                   *" << endl;
 	cout << "\t\t*                                               *" << endl;
@@ -113,11 +209,15 @@ void QLSach() {
 		break;
 	case 2:
 		do {
-			SetColor(13);
+			SetColor(11);
 			cout << "\n\t\tNhap ma Sach: ";
 			rewind(stdin);
 			SetColor(15);
 			getline(cin, sMaSach);
+			if (sMaSach == "-1") { 
+				system("cls");
+				QLSach();
+			}
 			if (kiemTraMaSach(sMaSach) == 1)  {
 				SetColor(12);
 				cout << "\n\t\t\tMa da ton tai!\n";
@@ -133,11 +233,15 @@ void QLSach() {
 		break;
 	case 3:
 		do {
-			SetColor(13);
+			SetColor(11);
 			cout << "\n\t\tNhap ma Sach: ";
 			rewind(stdin);
 			SetColor(15);
 			getline(cin, sMaSach);
+			if (sMaSach == "-1") { 
+				system("cls");
+				QLSach(); 
+			}
 			if (kiemTraTinhTrangSach(sMaSach) == -2)  {
 				SetColor(12);
 				cout << "\n\t\t\tMa sach khong ton tai!\n";
@@ -197,9 +301,11 @@ void QLBanDoc() {
 	cout << endl;
 	SetColor(12);
 	cout << "\t\t=================================================" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Them ban doc SV";SetColor(12); cout << "              =" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Them ban doc GV";SetColor(12); cout << "              =" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Thoat";SetColor(12); cout << "                        =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Xem ban doc SV";SetColor(12); cout << "               =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Xem ban doc GV";SetColor(12); cout << "               =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Them ban doc SV";SetColor(12); cout << "              =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t4. Them ban doc GV";SetColor(12); cout << "              =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t5. Thoat";SetColor(12); cout << "                        =" << endl;
 	SetColor(12);
 	cout << "\t\t=================================================" << endl;
 	SetColor(11);
@@ -212,12 +318,28 @@ void QLBanDoc() {
 	switch (iOption)
 	{
 	case 1:
+		xuatDsSV();
+		system("pause");
+		system("cls");
+		QLBanDoc();
+		break;
+	case 2:
+		xuatDsGV();
+		system("pause");
+		system("cls");
+		QLBanDoc();
+		break;
+	case 3:
 		do {
-			SetColor(13);
+			SetColor(11);
 			cout << "\n\t\tNhap ma ban doc: ";
 			rewind(stdin);
 			SetColor(15);
 			getline(cin, sMaBD);
+			if (sMaBD == "-1") { 
+				system("cls");
+				QLBanDoc(); 
+			}
 			if (kiemTraMaBD(sMaBD) == 1)  {
 				SetColor(12);
 				cout << "\n\t\t\tMa da ton tai!\n";
@@ -233,13 +355,17 @@ void QLBanDoc() {
 		system("cls");
 		QLBanDoc();
 		break;
-	case 2:
+	case 4:
 		do {
-			SetColor(13);
+			SetColor(11);
 			cout << "\n\t\tNhap ma ban doc: ";
 			rewind(stdin);
 			SetColor(15);
 			getline(cin, sMaBD);
+			if (sMaBD == "-1") { 
+				system("cls");
+				QLBanDoc();
+			}
 			if (kiemTraMaBD(sMaBD) == 1)  {
 				SetColor(12);
 				cout << "\n\t\t\tMa da ton tai!\n";
@@ -405,8 +531,12 @@ void menuQL() {
 	cin >> iOption;
 	switch (iOption) {
 	case 1:
+		system("cls");
+		QLPhieuMuon();
 		break;
 	case 2:
+		system("cls");
+		QLSach();
 		break;
 	case 3:
 		system("cls");
@@ -447,20 +577,26 @@ void menuTK() {
 	cout << "\n\t\t-Choose service: ";
 	SetColor(15);
 	cin >> iOption;
-	string sTenSach;
+	string sMaSach;
 	string sMaBD;
 	bool exist = false;
 	switch (iOption) {
 	case 1:
 		SetColor(11);
-		cout << "\n\t\t- Nhap tua de sach: ";
+		cout << "\n\t\t-Nhap Ma sach: ";
 		rewind(stdin);
 		SetColor(15);
-		getline(cin, sTenSach);
+		getline(cin, sMaSach);
+		if (sMaSach == "-1") { 
+			system("cls");
+			menuTK(); 
+		}
 		for (int i = 0; i < dsSach.size(); i++) {
-			if (dsSach[i].getTuaDe() == sTenSach) {
+			if (dsSach[i].getMasach() == sMaSach) {
+				cout << endl;
 				cout << dsSach[i];
 				exist = true;
+				cout << endl;
 				break;
 			}
 		}
@@ -474,15 +610,20 @@ void menuTK() {
 		break;
 	case 2:
 		SetColor(11);
-		cout << "\n\t\t- Nhap Ma ban doc: ";
+		cout << "\n\t\t-Nhap Ma ban doc: ";
 		rewind(stdin);
 		SetColor(15);
 		getline(cin, sMaBD);
+		if (sMaBD == "-1") { 
+			system("cls");
+			menuTK(); 
+		}
 		for (int i = 0; i < dsSV.size(); i++) {
 			if (dsSV[i].getMabandoc() == sMaBD) {
-				system("cls");
+				cout << endl;
 				cout << dsSV[i];
 				exist = true;
+				cout << endl;
 				break;
 			}
 		}
@@ -524,10 +665,11 @@ void menu() {
 	cout << endl;
 	SetColor(12);
 	cout << "\t\t=================================================" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Hien thi thong tin sach";SetColor(12); cout << "      =" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Tim kiem thong tin";SetColor(12); cout << "           =" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Quan ly";SetColor(12); cout << "                      =" << endl;
-	cout << "\t\t= "; SetColor(13); cout << "\t\t4. Thoat";SetColor(12); cout << "                        =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t1. Hien thi thong tin Sach";SetColor(12); cout << "      =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t2. Hien thi thong tin Ban doc";SetColor(12); cout << "   =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t3. Tim kiem thong tin";SetColor(12); cout << "           =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t4. Quan ly";SetColor(12); cout << "                      =" << endl;
+	cout << "\t\t= "; SetColor(13); cout << "\t\t5. Thoat";SetColor(12); cout << "                        =" << endl;
 	SetColor(12);
 	cout << "\t\t=================================================" << endl;
 	SetColor(11);
@@ -544,10 +686,16 @@ void menu() {
 		menu();
 		break;
 	case 2:
+		xuatDsSV();
+		xuatDsGV();
+		system("pause");
+		system("cls");
+		menu();
+	case 3:
 		system("cls");
 		menuTK();
 		break;
-	case 3:
+	case 4:
 		if (isAdmin == 1) {
 			system("cls");
 			menuQL();
@@ -567,6 +715,45 @@ void menu() {
 		login();
 		break;
 	}
+}
+
+std::string inputPassword(size_t length_max)
+{
+    std::string strRet;
+    char ch = 0;
+    bool bShow = false;
+    do {
+        ch = getch();
+        if((strRet.size() < length_max) &&
+           (::isalpha(ch) || ::isalnum(ch)))
+        {
+            std::cout << (bShow ? ch : '*');
+            strRet.push_back(ch);
+        }
+        else
+        {
+            if(0x1B == ch)
+            {
+                bShow = !bShow;
+ 
+                std::cout << std::string(strRet.size(), '\b');
+           
+                if(bShow)
+                    std::cout << strRet;
+                else
+                    std::cout << std::string(strRet.size(), '*');
+               
+            }
+            if('\b' == ch && !strRet.empty())
+            {
+                std::cout << "\b \b";
+                strRet.resize(strRet.size() - 1);
+            }
+        }
+ 
+    }while ('\r' != ch);
+    std::cout << std::endl;
+    return strRet;
 }
 
 void login() {
@@ -623,16 +810,12 @@ void login() {
 		char ch;
 		cout << "\t\t\t-  Password:   ";
 		SetColor(15);
-		ch = _getch();
-		while(ch != 13){
-			sPass.push_back(ch);
-			cout << '*';
-			ch = _getch();
-		}
+		sPass = inputPassword(20);
+
 		if (checkUsername(sUsername, sPass) == 1){
 			isAdmin = true;
 			SetColor(10);
-			cout << "\n\n\t\t\t      Dang nhap thong cong!!!\n";
+			cout << "\n\n\t\t\t      Dang nhap thang cong!!!\n";
 			cout << "\n\t\t\t\t\t\t";
 			loading(1);
 			system("cls");
@@ -767,25 +950,71 @@ void ghiMoiPM() {
 
 	string sMaBD;
 	string sMaSach;
-	cout << "Ma Ban doc: ";
-	rewind(stdin);
-	getline(cin, sMaBD);
 
-	cout << "Ma Sach: ";
-	rewind(stdin);
-	getline(cin, sMaSach);
+	do {
+		SetColor(11);
+		cout << "\n\t\tMa Ban doc: ";
+		rewind(stdin);
+		SetColor(15);
+		getline(cin, sMaBD);
+		if (sMaBD == "-1") { 
+			system("cls");
+			QLPhieuMuon(); 
+		}
+		if (kiemTraMaBD(sMaBD) == 0) {
+			SetColor(12);
+			cout << "\n\t\t\tMa Ban doc khong ton tai!\n\n";
+		}
+	} while (kiemTraMaBD(sMaBD) == 0);
+	
+	do {
+		SetColor(11);
+		cout << "\t\tMa Sach: ";
+		rewind(stdin);
+		SetColor(15);
+		getline(cin, sMaSach);
+		if (sMaSach == "-1") { 
+			system("cls");
+			QLPhieuMuon(); 
+		}
+		if (kiemTraMaSach(sMaSach) == 0) {
+			SetColor(12);
+			cout << "\n\t\t\tMa Sach khong ton tai!\n\n";
+		}
+		if (kiemTraTinhTrangSach(sMaSach) == -1) {
+			SetColor(12);
+			cout << "\n\t\t\tSach dang duoc muon!\n\n";
+		}
+	} while (kiemTraMaSach(sMaSach) == 0 || kiemTraTinhTrangSach(sMaSach) == -1);
 
 	PHIEUMUON xPM(sMaBD, sMaSach);
 	ghiFile << endl;
 	ghiFile << xPM;
-
 	ghiFile.close();
+
+	dsPM.push_back(xPM);
+
+	for (int i = 0; i < dsSach.size(); i++) {
+		if (dsSach[i].getMasach() == sMaSach) {
+			dsSach[i].setTinhTrangSach(xPM.getSoPhieuMuon());
+			ghiDsSach();
+			break;
+		}
+	}
+	SetColor(10);
+	cout << "\n\t\tTao moi Phieu muon thanh cong!\n\n";
 }
 void ghiDsPM() {
 	ofstream ghiFile;
 	ghiFile.open("Phieu_Muon.dat");
 	for (int i = 0; i < dsPM.size(); i++) {
-		ghiFile << dsPM[i];
+		//ghiFile << dsPM[i];
+		ghiFile << dsPM[i].getSoPhieuMuon() << '#';
+		ghiFile << dsPM[i].getMaBD() << '#';
+		ghiFile << dsPM[i].getMaSach() << '#';
+		ghiFile << dsPM[i].getNgayMuon() << '#';
+		ghiFile << dsPM[i].getNgayTra() << '#';
+		ghiFile << dsPM[i].getTinhTrangPhieuMuon();
 		if (i != dsPM.size() - 1) {
 			ghiFile << endl;
 		}
