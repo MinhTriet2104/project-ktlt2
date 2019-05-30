@@ -1,2 +1,1 @@
-# project-ktlt2
-Project KTLT 2
+# Đây chắc chắn không phải là một Project về KTLT2
